@@ -1,2 +1,2 @@
 # Ejemplo para el proyecto de Santiago
-## Proyecto final de bases de datos
+## Proyecto final de estructuras de datos

@@ -2,6 +2,7 @@ package edu.cajero;
 
 public class Node<E> {
     private E data;
+    private int count;
     public Node<E> next;
     public Node(E dataItem) {
         data = dataItem;

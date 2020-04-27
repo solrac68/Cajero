@@ -1,26 +1,27 @@
 package edu.cajero;
 
-public class LinkedList<T> {
+public class LinkedListDouble<T> {
     private class Node<T>
     {
         private T data;
         private Node<T> next;
+        private Node<T> prev;
 
         public Node( )
         {
             data = null;
             next = null;
+            prev = null;
         }
-        public Node (T newData, Node<T> linkValue)
+        public Node (T newData)
         {
             data = newData;
-            next = linkValue;
         }
     }
     private Node<T> head;
     private int size = 0;
 
-    public LinkedList()
+    public LinkedListDouble()
     {
         head = null;
     }
@@ -31,7 +32,18 @@ public class LinkedList<T> {
      */
     public void addFirst(T item)
     {
-        head = new Node<T> (item, head);
+        // Crea  nuevo nudo
+        Node<T> new_node = new Node<>(item);
+
+        // Hace el next del nuevo nudo como la cabeza y el previo como null
+        new_node.next = head;
+        new_node.prev = null;
+
+        // Se cambia el prev de la nodo cabeza al nuevo nudo
+        if (head != null)
+            head.prev = new_node;
+
+        head = new_node;
         size++;
     }
 
@@ -41,7 +53,27 @@ public class LinkedList<T> {
      * @param item El item a insertar
      */
     private void addAfter(Node<T> node, T item){
-        node.next = new Node<T>(item,node.next);
+        if (node == null) {
+            System.out.println("The given previous node cannot be NULL ");
+            return;
+        }
+
+        // Se crea el nodo nuevo
+        Node<T> new_node = new Node<>(item);
+
+        /* 4. Hace el next del nuevo node como next del prev_node */
+        new_node.next = node.next;
+
+        /* 5. Hace el next del prev_node como new_node */
+        node.next = new_node;
+
+        /* 6. Hace prev_node como el prev del new_node */
+        new_node.prev = node;
+
+        /* 7. Cambia el prev del next del nodo new_node */
+        if (new_node.next != null)
+            new_node.next.prev = new_node;
+
         size++;
     }
 
@@ -81,6 +113,7 @@ public class LinkedList<T> {
         Node<T> temp = head;
         if (head != null) {
             head = head.next;
+            head.prev = null;
         }
         if (temp != null) {
             size--;
@@ -99,12 +132,31 @@ public class LinkedList<T> {
         Node<T> temp = node.next;
         if (temp != null) {
             node.next = temp.next;
+            temp.next.prev = node;
             size--;
             return temp.data;
         } else {
             return null;
         }
     }
+
+    private T remove(Node<T> node) {
+        if (node != null) {
+            if (node.next != null){
+                node.prev.next = node.next;
+                node.next.prev = node.prev;
+            }
+            else{
+                node.prev.next = null;
+                node.prev = null;
+            }
+            size--;
+            return node.data;
+        } else {
+            return null;
+        }
+    }
+
 
     /**
      * Remueve el nodo con indice index
@@ -118,7 +170,8 @@ public class LinkedList<T> {
         if(index == 0)
             return removeFirst();
         else {
-            return removeAfter(getNode(index - 1));
+            Node<T> nodeR = getNode(index);
+            return remove(nodeR);
         }
     }
 
@@ -199,7 +252,7 @@ public class LinkedList<T> {
         Node<T> position = head;
         while (position != null)
         {
-            System.out.printf("%s\n\n",position.data);
+            System.out.printf("%s\n",position.data);
             position = position.next;
         }
     }
@@ -215,7 +268,7 @@ public class LinkedList<T> {
     /**
      * Elimina todos los elementos de la lista
      */
-    public void clear( )
+    public void clear()
     {
         head = null;
     }

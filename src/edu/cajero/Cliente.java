@@ -3,17 +3,20 @@ package edu.cajero;
 import java.util.Date;
 
 public class Cliente {
-    private String identificacion;
-    private String nombre;
-    private String genero;
-    private Date fechaNacimiento;
-
-    public String getIdentificacion() {
-        return identificacion;
+    enum Genero {Male, Female};
+    public Cliente(String idCliente, String nombre, Genero genero, Date fechaNacimiento) {
+        this.idCliente = idCliente;
+        this.nombre = nombre;
+        this.genero = genero;
+        this.fechaNacimiento = fechaNacimiento;
     }
 
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
+    public String getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(String idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getNombre() {
@@ -24,11 +27,11 @@ public class Cliente {
         this.nombre = nombre;
     }
 
-    public String getGenero() {
+    public Genero getGenero() {
         return genero;
     }
 
-    public void setGenero(String genero) {
+    public void setGenero(Genero genero) {
         this.genero = genero;
     }
 
@@ -40,5 +43,32 @@ public class Cliente {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public String toString()
+    {
+        return String.format("Id del Cliente: %s\nNombre: %s\nGenero: %s\nNacimiento: %s",
+                this.idCliente,this.nombre,this.genero.toString(),this.fechaNacimiento.toString());
+    }
 
+    public boolean equals(Object otherObject)
+    {
+        if (otherObject == null)
+            return false;
+        else if (getClass( ) != otherObject.getClass( ))
+            return false;
+        else
+        {
+            Cliente cliente = (Cliente)otherObject;
+//            return this.nombre.equals(cliente.nombre)
+//                    && this.fechaNacimiento.equals(cliente.fechaNacimiento)
+//                    && this.genero.equals(cliente.genero)
+//                    && this.idCliente.equals(cliente.idCliente);
+
+            return this.idCliente.equals(cliente.idCliente);
+        }
+    }
+
+    private String idCliente;
+    private String nombre;
+    private Genero genero;
+    private Date fechaNacimiento;
 }

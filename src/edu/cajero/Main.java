@@ -291,6 +291,45 @@ public class Main {
         lector.nextLine();
     }
     public static void modificarClientes(){
+        listaClientes.outputList();
+        Scanner lector = new Scanner(System.in);
+
+        System.out.printf("\nDigite la identificacion del Cliente que se modificara: ");
+        String idCliente = lector.nextLine();
+        Cliente cliente = getCliente(idCliente);
+
+    }
+
+    public static Cliente getClienteAModificar(Cliente cliente){
+        Scanner lector = new Scanner(System.in);
+
+        System.out.printf("\nNombre actual del Cliente: %s",cliente.getNombre());
+        String nombreCliente = lector.nextLine();
+        if (nombreCliente.trim().length() == 0)
+            nombreCliente = cliente.getNombre();
+
+        String idCliente = cliente.getIdCliente();
+
+        System.out.printf("\nGenero actual del cliente: %s (M/F) : ",cliente.getGenero().toString());
+        String genero = lector.nextLine();
+
+       // if(genero.trim().length() == 0) genero = cliente.getGenero();
+
+        System.out.printf("\nAño actual de nacimiento : %s",cliente.getFechaNacimiento().getYear());
+        Integer ano = lector.nextInt();
+        System.out.printf("\nMes de nacimiento (1-12) :");
+        Integer mes = lector.nextInt();
+        System.out.printf("\nDia de nacimiento (1-31) :");
+        Integer dia = lector.nextInt();
+
+        Date fechaNacimiento = new Date(ano,mes,dia);
+
+        cliente = new Cliente(idCliente,
+                nombreCliente,
+                (genero.toLowerCase().equals("f")?Cliente.Genero.Female: Cliente.Genero.Male),
+                fechaNacimiento);
+
+        return cliente;
 
     }
 

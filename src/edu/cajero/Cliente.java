@@ -1,10 +1,10 @@
 package edu.cajero;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Cliente {
     enum Genero {Male, Female};
-    public Cliente(String idCliente, String nombre, Genero genero, Date fechaNacimiento) {
+    public Cliente(String idCliente, String nombre, Genero genero, LocalDate fechaNacimiento) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.genero = genero;
@@ -35,17 +35,17 @@ public class Cliente {
         this.genero = genero;
     }
 
-    public Date getFechaNacimiento() {
+    public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
     public String toString()
     {
-        return String.format("Id del Cliente: %s\nNombre: %s\nGenero: %s\nNacimiento: %s",
+        return String.format("Id Cliente: %-15s\tNombre: %-30s\tGenero: %-5s\tNacimiento: %-20s",
                 this.idCliente,this.nombre,this.genero.toString(),this.fechaNacimiento.toString());
     }
 
@@ -70,5 +70,5 @@ public class Cliente {
     private String idCliente;
     private String nombre;
     private Genero genero;
-    private Date fechaNacimiento;
+    private LocalDate fechaNacimiento;
 }

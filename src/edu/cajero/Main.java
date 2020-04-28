@@ -1,13 +1,18 @@
 package edu.cajero;
 
+import edu.cajero.dtos.Cliente;
+import edu.cajero.listas.ListaDobleEnlazada;
+
 import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main {
-    static LinkedListDouble<Cliente> listaClientes = new LinkedListDouble<>();
+    static ListaDobleEnlazada<Cliente> listaClientes = new ListaDobleEnlazada<>();
     public static void main(String[] args) {
         //Tests.testLinkedList();
         //Tests.testLinkedListDouble();
+        Tests.testCircularList();
+
 
         int respuesta;
         while ((respuesta = menuMain()) != 4){

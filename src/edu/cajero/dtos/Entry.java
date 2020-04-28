@@ -1,4 +1,4 @@
-package edu.cajero;
+package edu.cajero.dtos;
 
 public class Entry {
     private String item;

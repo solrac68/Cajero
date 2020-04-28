@@ -1,6 +1,6 @@
-package edu.cajero;
+package edu.cajero.listas;
 
-public class LinkedListDouble<T> {
+public class ListaDobleCircular<T> {
     private class Node<T>
     {
         private T data;
@@ -19,11 +19,13 @@ public class LinkedListDouble<T> {
         }
     }
     private Node<T> head;
+    private Node<T> tail;
     private int size = 0;
 
-    public LinkedListDouble()
+    public ListaDobleCircular()
     {
         head = null;
+        tail = null;
     }
 
     /**
@@ -37,14 +39,25 @@ public class LinkedListDouble<T> {
 
         // Hace el next del nuevo nudo como la cabeza y el previo como null
         new_node.next = head;
-        new_node.prev = null;
+        new_node.prev = tail;
 
         // Se cambia el prev de la nodo cabeza al nuevo nudo
         if (head != null)
             head.prev = new_node;
+        if (tail != null)
+            tail.next = new_node;
 
         head = new_node;
+
+        if (size == 0){
+            tail = new_node;
+            head.next = head;
+            tail.prev = tail;
+        }
+
         size++;
+
+
     }
 
     /**
@@ -73,6 +86,8 @@ public class LinkedListDouble<T> {
         /* 7. Cambia el prev del next del nodo new_node */
         if (new_node.next != null)
             new_node.next.prev = new_node;
+        if (node == tail)
+            tail = new_node;
 
         size++;
     }
@@ -105,50 +120,23 @@ public class LinkedListDouble<T> {
         return true;
     }
 
-    /**
-     * Remueve el primer elemento de la lista
-     * @return The dato del nodo eliminado o null si la lista esta vacía
-     */
-    private T removeFirst() {
-        Node<T> temp = head;
-        if (head != null) {
-            head = head.next;
-            head.prev = null;
-        }
-        if (temp != null) {
-            size--;
-            return temp.data;
-        } else {
-            return null;
-        }
-    }
 
-    /**
-     * Elimina un nodo despues de un nodo dado
-     * @param node El nodo anterior al nodo que se removera
-     * @return El dato del nodo eliminado, o null sí no hay nodo a eliminar
-     */
-    private T removeAfter(Node<T> node) {
-        Node<T> temp = node.next;
-        if (temp != null) {
-            node.next = temp.next;
-            temp.next.prev = node;
-            size--;
-            return temp.data;
-        } else {
-            return null;
-        }
-    }
 
     private T remove(Node<T> node) {
         if (node != null) {
-            if (node.next != null){
-                node.prev.next = node.next;
-                node.next.prev = node.prev;
+            if(node == tail){
+                tail = node.prev;
+                tail.next = head;
+                head.prev = tail;
+            }
+            else if(node == head){
+                head = head.next;
+                head.prev = tail;
+                tail.next = head;
             }
             else{
-                node.prev.next = null;
-                node.prev = null;
+                node.prev.next = node.next;
+                node.next.prev = node.prev;
             }
             size--;
             return node.data;
@@ -167,12 +155,8 @@ public class LinkedListDouble<T> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException(Integer.toString(index));
         }
-        if(index == 0)
-            return removeFirst();
-        else {
-            Node<T> nodeR = getNode(index);
-            return remove(nodeR);
-        }
+        Node<T> nodeR = getNode(index);
+        return remove(nodeR);
     }
 
     public boolean remove(T item){
@@ -204,13 +188,13 @@ public class LinkedListDouble<T> {
     {
         Node<T> position = head;
         T itemAtPosition;
-        while (position != null)
-        {
+        do{
             itemAtPosition = position.data;
             if (itemAtPosition.equals(target))
                 return position;
             position = position.next;
-        }
+        } while (position != head);
+
         return null;
     }
 
@@ -223,14 +207,13 @@ public class LinkedListDouble<T> {
         Node<T> position = head;
         T itemAtPosition;
         Integer pos = 0;
-        while (position != null)
-        {
+        do {
             itemAtPosition = position.data;
             if (itemAtPosition.equals(target))
                 return pos;
             position = position.next;
             pos++;
-        }
+        } while (position != head);
         return -1;
     }
 
@@ -250,11 +233,21 @@ public class LinkedListDouble<T> {
     public void outputList()
     {
         Node<T> position = head;
-        while (position != null)
-        {
+
+        do{
             System.out.printf("%s\n",position.data);
             position = position.next;
-        }
+        } while (position != head);
+    }
+
+    public void outputListReverse()
+    {
+        Node<T> position = tail;
+
+        do{
+            System.out.printf("%s\n",position.data);
+            position = position.prev;
+        } while (position != tail);
     }
 
     /**

@@ -1,9 +1,9 @@
-package edu.cajero;
+package edu.cajero.dtos;
 
 import java.time.LocalDate;
 
 public class Cliente {
-    enum Genero {Male, Female};
+    public enum Genero {Male, Female};
     public Cliente(String idCliente, String nombre, Genero genero, LocalDate fechaNacimiento) {
         this.idCliente = idCliente;
         this.nombre = nombre;

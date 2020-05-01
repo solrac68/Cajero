@@ -10,7 +10,7 @@ public class Main {
     static ListaDobleEnlazada<Cliente> listaClientes = new ListaDobleEnlazada<>();
     public static void main(String[] args) {
         //Tests.testLinkedList();
-        //Tests.testLinkedListDouble();
+        Tests.testLinkedListDouble();
         Tests.testCircularList();
 
 

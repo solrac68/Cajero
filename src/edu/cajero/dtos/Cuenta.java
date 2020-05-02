@@ -10,7 +10,7 @@ public class Cuenta {
 
     public String toString()
     {
-        return String.format("Numero de Cuenta: %s\nId Cliente: %s\nSaldo: %6.2f",this.numCuenta,this.idCliente,this.saldo = saldo);
+        return String.format("Numero de Cuenta: %-15s\tId Cliente: %-30s\tSaldo: %-6.2f",this.numCuenta,this.idCliente,this.saldo = saldo);
     }
 
     public boolean equals(Object otherObject)

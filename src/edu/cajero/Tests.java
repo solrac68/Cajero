@@ -1,14 +1,33 @@
 package edu.cajero;
 
 import edu.cajero.dtos.Cliente;
+import edu.cajero.dtos.Cuenta;
 import edu.cajero.dtos.Entry;
-import edu.cajero.listas.ListaDobleCircular;
-import edu.cajero.listas.ListaDobleEnlazada;
-import edu.cajero.listas.ListaEnlazada;
+import edu.cajero.listas.*;
 
 import java.time.LocalDate;
 
 public class Tests {
+    public static void testPIla(){
+        PilaInt<Cuenta> pila = new Pila<>();
+        Cuenta cuenta1 = new Cuenta("c001","123",0.0);
+        Cuenta cuenta2 = new Cuenta("c002","234",5.0);
+        Cuenta cuenta3 = new Cuenta("c003","345",7.0);
+        Cuenta cuenta4 = new Cuenta("c004","456",8.0);
+
+        pila.push(cuenta1);
+        pila.push(cuenta2);
+        pila.push(cuenta3);
+        pila.push(cuenta4);
+
+        System.out.printf("\n peek %s",pila.peek());
+        System.out.printf("\n pop %s",pila.pop());
+        System.out.printf("\n pop %s",pila.pop());
+        System.out.printf("\n pop %s",pila.pop());
+        System.out.printf("\n pop %s",pila.pop());
+        System.out.printf("\n pop %s",pila.pop());
+
+    }
     public static void testLinkedListDouble(){
         ListaDobleEnlazada<Cliente> list = new ListaDobleEnlazada<>();
 

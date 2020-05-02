@@ -1,13 +1,17 @@
 package edu.cajero;
 
 import edu.cajero.dtos.Cliente;
+import edu.cajero.dtos.Cuenta;
 import edu.cajero.listas.ListaDobleEnlazada;
+import edu.cajero.listas.ListaEnlazada;
 
 import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main {
     static ListaDobleEnlazada<Cliente> listaClientes = new ListaDobleEnlazada<>();
+    static ListaEnlazada<Cuenta> listaCuenta = new ListaEnlazada<>();
+
     public static void main(String[] args) {
         //se han borado las prue
 
@@ -45,10 +49,10 @@ public class Main {
         return lector.nextInt();
     }
 
-    public static int menuCli(){
+    public static int menuCli(String titulo){
         Scanner lector = new Scanner(System.in);
         System.out.println("");
-        System.out.println("---MENU CLIENTES---");
+        System.out.println(titulo);
         System.out.println("1.Ingresar");
         System.out.println("2.Consultar");
         System.out.println("3.Modificar");
@@ -62,7 +66,7 @@ public class Main {
     public static void menuClientes(){
         int respuesta;
 
-        while((respuesta = menuCli()) != 5){
+        while((respuesta = menuCli("---MENU CLIENTES---")) != 5){
             switch (respuesta) {
                 case 1:
                     ingresarClientes();
@@ -117,6 +121,7 @@ public class Main {
         return cliente;
 
     }
+
     public static void consultarClientes(){
         Scanner lector = new Scanner(System.in);
         listaClientes.outputList();
@@ -228,10 +233,70 @@ public class Main {
         }
     }
 
-    public static void menuCuentas(){
+    public static void menuCuentas()
+    {
+        int respuesta;
+
+        while((respuesta = menuCli("---MENU CUENTAS---")) != 5){
+            switch (respuesta) {
+                case 1:
+                    ingresarCuentas();
+                    break;
+                case 2:
+                    consultarCuentas();
+                    break;
+                case 3:
+                    modificarCuentas();
+                    break;
+                case 4:
+                    eliminarCuentas();
+                    break;
+            }
+        }
     }
 
-    public static void menuOperaciones(){
+    public static void consultarCuentas()
+    {
+        Scanner lector = new Scanner(System.in);
+        listaCuenta.outputList();
+        System.out.printf("\nCuentas Consultadas, Presione cualquier tecla para continuar ");
+        lector.nextLine();
+    }
+
+public static void ingresarCuentas()
+{
+    Scanner lector = new Scanner(System.in);
+    Cuenta cuenta = getCuentaNueva();
+    listaCuenta.add(cuenta);
+    System.out.printf("\nCuenta Ingresada, Presione cualquier tecla para continuar ");
+    lector.nextLine();
+}
+
+public static Cuenta getCuentaNueva()
+    {
+        Scanner lector = new Scanner(System.in);
+
+        System.out.printf("\nNumero de cuenta: ");
+        String numCuenta = lector.nextLine();
+
+        System.out.printf("\nDigite su identificacion : ");
+        String idCliente = lector.nextLine();
+
+        System.out.printf("\nDigite con cuanto desea registrar la cuenta: ");
+        double saldo=lector.nextDouble();
+
+
+
+        Cuenta cuenta = new Cuenta(numCuenta,idCliente,saldo);
+                //(genero.toLowerCase().equals("f")?Cliente.Genero.Female: Cliente.Genero.Male),
+                //fechaNacimiento);
+
+        return cuenta;
+    }
+
+    public static void menuOperaciones()
+    {
+
     }
 
 

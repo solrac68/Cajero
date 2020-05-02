@@ -113,10 +113,12 @@ public class ListaDobleEnlazada<T> {
         Node<T> temp = head;
         if (head != null) {
             head = head.next;
-            head.prev = null;
+            temp = head;
+            if (head != null)
+                head.prev = null;
         }
+        size--;
         if (temp != null) {
-            size--;
             return temp.data;
         } else {
             return null;

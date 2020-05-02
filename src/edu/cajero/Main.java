@@ -10,8 +10,6 @@ public class Main {
     static ListaDobleEnlazada<Cliente> listaClientes = new ListaDobleEnlazada<>();
     public static void main(String[] args) {
 
-        Tests.testPIla();
-
         int respuesta;
         while ((respuesta = menuMain()) != 4){
             System.out.printf("Respuesta es: %d",respuesta);

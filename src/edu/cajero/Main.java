@@ -13,8 +13,6 @@ public class Main {
     static ListaEnlazada<Cuenta> listaCuenta = new ListaEnlazada<>();
 
     public static void main(String[] args) {
-        //se han borado las prue
-
 
         int respuesta;
         while ((respuesta = menuMain()) != 4){
@@ -221,7 +219,7 @@ public class Main {
         Cliente cliente = listaClientes.findData(new Cliente(idCliente,"",Cliente.Genero.Female, LocalDate.now()));
         if (cliente != null) {
             //Integer idClienteToDelete = listaClientes.indexOf(cliente);
-            // Actualizando cliente
+            //Actualizando cliente
             boolean cliEstado = listaClientes.remove(cliente);
             if(cliEstado){
                 System.out.printf("\nEl cliente con identificación %s fue eliminado de la base de datos, presione cualquier tecla para continuar", cliente.getIdCliente());
@@ -246,7 +244,7 @@ public class Main {
                     consultarCuentas();
                     break;
                 case 3:
-                    modificarCuentas();
+                    //modificarCuentas();
                     break;
                 case 4:
                     eliminarCuentas();
@@ -254,6 +252,115 @@ public class Main {
             }
         }
     }
+
+    public  static  void eliminarCuentas()
+    {
+        listaCuenta.outputList();
+        Scanner lector = new Scanner(System.in);
+        System.out.printf("\nDigite el numero de cuenta que se eliminara: ");
+        String NumCuenta = lector.nextLine();
+        System.out.printf("\nDigite el saldo que se eliminara junto a la cuenta:");
+        double Saldo=lector.nextDouble();
+        Cuenta cuenta=listaCuenta.findData(new Cuenta(NumCuenta,"",Saldo));
+        if(cuenta!=null)
+        {
+            boolean cueEstado=listaCuenta.remove(cuenta);
+
+            if(cueEstado)
+            {
+                System.out.printf("\nLa cuenta de numeros %s fue eliminado de la base de datos, presione cualquier tecla para continuar", cuenta.getNumCuenta());
+                lector.nextLine();
+            }
+        }
+        else
+            {
+                System.out.printf("\nEl numero de cuenta %s No existe en el sistema ", NumCuenta);
+            }
+    }
+
+   // public static void modificarCuentas()
+    /*{
+        listaCuenta.outputList();
+        Scanner lector = new Scanner(System.in);
+
+        System.out.println("\nDigite el numero de cuenta que se desea modificar:");
+        String numCuenta=lector.nextLine();
+        System.out.printf("\nDigite la identificacion del Cliente que se modificara: ");
+        String idCliente = lector.nextLine();
+        System.out.println("\nDigite el saldo a modificar:");
+        double saldo=lector.nextDouble();
+
+        Cuenta cuenta=listaCuenta.findData(new Cuenta(numCuenta,"",saldo));
+        if(cuenta!=null)
+        {
+            Cuenta cuentaMod=getCuentaModificar(cuenta);
+            Integer IdcuentaMod=listaCuenta.indexOf(cuenta);
+        }
+        //Actualizando cuenta
+
+        Cuenta cuen=listaCuenta.set(IdcuentaMod);
+
+        if(cuen!=null)
+        {
+            System.out.println("La cuenta con numero %s fue actualizada exitosamente,presione cualquier tecla para continuar",cli.getIdcuenta());
+        }
+
+        else
+            {
+                System.out.println("La cuenta %s no ha sido registrada.",numCuenta);
+            }
+    }
+
+    public static Cuenta getCuentaModificar(Cuenta cuenta)
+    {
+        Scanner lector = new Scanner(System.in);
+        System.out.printf("\nNumero de cuenta actual: %s",cuenta.getNumCuenta());
+        System.out.printf("\nEscriba el nuevo numero de cuenta o enter para no modificar:");
+        String Numcuenta=lector.nextLine();
+
+        if(Numcuenta.trim().length()==0)
+            Numcuenta = cuenta.getNumCuenta();
+
+        // El numero de cuenta no cambia
+        String idCuenta = cuenta.getNumCuenta();
+
+
+
+
+
+
+        return cuenta;
+    }/*{
+        listaCuenta.outputList();
+        Scanner lector = new Scanner(System.in);
+
+        System.out.println("\nDigite el numero de cuenta que se desea modificar:");
+        String numCuenta=lector.nextLine();
+        System.out.printf("\nDigite la identificacion del Cliente que se modificara: ");
+        String idCliente = lector.nextLine();
+        System.out.println("\nDigite el saldo a modificar:");
+        double saldo=lector.nextDouble();
+
+        Cuenta cuenta=listaCuenta.findData(new Cuenta(numCuenta,"",saldo));
+        if(cuenta!=null)
+        {
+            Cuenta cuentaMod=getCuentaModificar(cuenta);
+            Integer IdcuentaMod=listaCuenta.indexOf(cuenta);
+        }
+        //Actualizando cuenta
+
+        Cuenta cuen=listaCuenta.set(IdcuentaMod);
+
+        if(cuen!=null)
+        {
+            System.out.println("La cuenta con numero %s fue actualizada exitosamente,presione cualquier tecla para continuar",cli.getIdcuenta());
+        }
+
+        else
+            {
+                System.out.println("La cuenta %s no ha sido registrada.",numCuenta);
+            }
+    }*/
 
     public static void consultarCuentas()
     {
@@ -296,7 +403,6 @@ public static Cuenta getCuentaNueva()
 
     public static void menuOperaciones()
     {
-
     }
 
 

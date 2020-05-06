@@ -217,18 +217,21 @@ public class Main {
         System.out.printf("\nDigite la identificacion del Cliente que se eliminara: ");
         String idCliente = lector.nextLine();
         Cliente cliente = listaClientes.findData(new Cliente(idCliente,"",Cliente.Genero.Female, LocalDate.now()));
-        if (cliente != null) {
+        if (cliente != null)
+        {
             //Integer idClienteToDelete = listaClientes.indexOf(cliente);
             //Actualizando cliente
             boolean cliEstado = listaClientes.remove(cliente);
-            if(cliEstado){
+            if(cliEstado)
+            {
                 System.out.printf("\nEl cliente con identificación %s fue eliminado de la base de datos, presione cualquier tecla para continuar", cliente.getIdCliente());
                 lector.nextLine();
             }
         }
-        else {
+        else
+            {
             System.out.printf("\nLa identificación %s No existe en el sistema ", idCliente);
-        }
+            }
     }
 
     public static void menuCuentas()
@@ -372,6 +375,7 @@ public class Main {
 
 public static void ingresarCuentas()
 {
+
     Scanner lector = new Scanner(System.in);
     Cuenta cuenta = getCuentaNueva();
     listaCuenta.add(cuenta);
@@ -381,6 +385,7 @@ public static void ingresarCuentas()
 
 public static Cuenta getCuentaNueva()
     {
+        listaClientes.outputList();
         Scanner lector = new Scanner(System.in);
 
         System.out.printf("\nNumero de cuenta: ");

@@ -321,12 +321,15 @@ public class Main {
         if(Id.trim().length()==0)
             Id = cuenta.getIdCliente();
 
-        
 
-        System.out.printf("\nSalario actual: %d",cuenta.getSaldo());
+
+        System.out.printf("\nSaldo actual: %s",cuenta.getSaldo());
         System.out.printf("\nDigite el nuevo salario:");
         double saldo=lector.nextDouble();
+        if(saldo==0)
+        saldo=cuenta.getSaldo();
 
+        cuenta=new Cuenta("",Id,saldo);
         return cuenta;
     }
 

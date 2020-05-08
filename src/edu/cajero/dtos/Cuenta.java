@@ -22,9 +22,9 @@ public class Cuenta {
         else
         {
             Cuenta cuenta = (Cuenta)otherObject;
-            return this.numCuenta.equals(cuenta.numCuenta) &&
-                    this.idCliente.equals(cuenta.idCliente) &&
-                    (this.saldo == cuenta.saldo);
+
+
+            return this.numCuenta.equals(cuenta.numCuenta);
         }
     }
 

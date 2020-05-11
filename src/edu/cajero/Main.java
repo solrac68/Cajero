@@ -2,15 +2,19 @@ package edu.cajero;
 
 import edu.cajero.dtos.Cliente;
 import edu.cajero.dtos.Cuenta;
+import edu.cajero.dtos.Operacion;
+import edu.cajero.listas.ListaDobleCircular;
 import edu.cajero.listas.ListaDobleEnlazada;
 import edu.cajero.listas.ListaEnlazada;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Main {
     static ListaDobleEnlazada<Cliente> listaClientes = new ListaDobleEnlazada<>();
     static ListaEnlazada<Cuenta> listaCuenta = new ListaEnlazada<>();
+    static ListaDobleCircular<Operacion> listaOperaciones =new ListaDobleCircular<>();
 
     public static void main(String[] args) {
 
@@ -26,6 +30,9 @@ public class Main {
                     break;
                 case 3:
                     menuOperaciones();
+                    break;
+                default:
+                    System.out.println("La opcion ingresada no se encuentra entre la posibles");
                     break;
             }
         }
@@ -82,7 +89,8 @@ public class Main {
         }
     }
 
-    public static void ingresarClientes(){
+    public static void ingresarClientes()
+    {
         Scanner lector = new Scanner(System.in);
         Cliente cliente = getClienteNuevo();
         listaClientes.add(cliente);
@@ -248,10 +256,13 @@ public class Main {
                     consultarCuentas();//listo
                     break;
                 case 3:
-                    modificarCuentas();
+                    modificarCuentas();//listo
                     break;
                 case 4:
                     eliminarCuentas();//listo
+                    break;
+                default:
+                    System.out.println("La opcion ingresada no se encuentra entre la posibles");
                     break;
             }
         }
@@ -289,7 +300,7 @@ public class Main {
 
         System.out.println("\nDigite el numero de cuenta que se desea modificar:");
         String numCuenta=lector.nextLine();
-        System.out.println("\nDe cuanto es el saldo actual a modificar");
+        System.out.println("\nDe cuanto es el saldo actual a modificar:");
         double saldo=lector.nextDouble();
 
         Cuenta cuenta=listaCuenta.findData(new Cuenta(numCuenta,"",saldo));
@@ -321,15 +332,19 @@ public class Main {
         if(Id.trim().length()==0)
             Id = cuenta.getIdCliente();
 
-
+        System.out.printf("\nEl numero de cuenta actual es:%s",cuenta.getNumCuenta());
+        System.out.printf("\nEscriba el nuevo numero de cuenta:");
+        String NumCuenta=lector.nextLine();
+        if(NumCuenta.trim().length()==0)
+            NumCuenta=cuenta.getNumCuenta();
 
         System.out.printf("\nSaldo actual: %s",cuenta.getSaldo());
-        System.out.printf("\nDigite el nuevo salario:");
+        System.out.printf("\nDigite el nuevo saldo:");
         double saldo=lector.nextDouble();
         if(saldo==0)
         saldo=cuenta.getSaldo();
 
-        cuenta=new Cuenta("",Id,saldo);
+        cuenta=new Cuenta(NumCuenta,Id,saldo);
         return cuenta;
     }
 
@@ -343,39 +358,125 @@ public class Main {
 
     public static void ingresarCuentas()
 {
-
+    listaClientes.outputList();
     Scanner lector = new Scanner(System.in);
+    System.out.printf("\nDigite su identificacion : ");
+    String idCliente = lector.nextLine();
+
+    Cliente cliente = listaClientes.findData(new Cliente(idCliente, "", Cliente.Genero.Female, LocalDate.now()));
+    if(cliente!=null)
+    {
     Cuenta cuenta = getCuentaNueva();
     listaCuenta.add(cuenta);
     System.out.printf("\nCuenta Ingresada, Presione cualquier tecla para continuar ");
     lector.nextLine();
+    }
+    else
+        {
+            System.out.println("El ID ingresado no existe");
+        }
 }
 
-    public static Cuenta getCuentaNueva()
-    {
-        listaClientes.outputList();
-        Scanner lector = new Scanner(System.in);
+    public static Cuenta getCuentaNueva() {
 
-        System.out.printf("\nNumero de cuenta: ");
-        String numCuenta = lector.nextLine();
+            Scanner lector = new Scanner(System.in);
 
-        System.out.printf("\nDigite su identificacion : ");
-        String idCliente = lector.nextLine();
+            System.out.printf("\nNumero de cuenta: ");
+            String numCuenta = lector.nextLine();
 
-        System.out.printf("\nDigite con cuanto desea registrar la cuenta: ");
-        double saldo=lector.nextDouble();
+            System.out.printf("\nPor favor digite cedula");
+            String Id=lector.nextLine();
 
+            System.out.printf("\nDigite saldo inicial de la cuenta: ");
+            double saldo = lector.nextDouble();
 
+            Cuenta cuenta = new Cuenta(numCuenta,Id,saldo);
 
-        Cuenta cuenta = new Cuenta(numCuenta,idCliente,saldo);
-                //(genero.toLowerCase().equals("f")?Cliente.Genero.Female: Cliente.Genero.Male),
-                //fechaNacimiento);
-
-        return cuenta;
+            return cuenta;
     }
 
     public static void menuOperaciones()
     {
+        int respuesta;
+
+        while((respuesta = menuCli("---MENU CUENTAS---")) != 5)
+        {
+            switch (respuesta)
+            {
+                case 1:operacionesIngreso();
+                break;
+
+                case 2:
+                    break;
+            }
+        }
+    }
+
+    public static void operacionesIngreso()
+    {
+        int resp;
+        Scanner lector=new Scanner(System.in);
+        System.out.println("1.Consignar");
+        System.out.println("2.Retirar");
+        System.out.println("3.Salir");
+        System.out.println("Digite una de las opciones:");
+        resp=lector.nextInt();
+        while (resp!=3)
+        {
+            switch (resp)
+            {
+                case 1:consignacion();
+                break;
+
+                case 2:retiros();
+                break;
+
+                case 3:resp=3;
+                break;
+
+                default:
+                    System.out.println("La opcion digitada no esta entre las posibles.");
+                    break;
+            }
+        }
+    }
+
+    private static void retiros()
+    {
+    }
+
+    private static void consignacion()
+    {
+        int maxConsecutivo = 0;
+        listaCuenta.outputList();
+        String numCuenta;
+        Scanner lector=new Scanner(System.in);
+        Cuenta cuenta;
+        do {
+            System.out.printf("\nDigite su numero de cuenta: ");
+            numCuenta = lector.nextLine();
+            cuenta=listaCuenta.findData(new Cuenta(numCuenta,"",0.0));
+        }while (cuenta == null);
+
+        System.out.printf("Valor a consignar:");
+        double valorConsignar=lector.nextDouble();
+
+        LocalDateTime fechaHora=LocalDateTime.now();
+        //Operacion.TipoOperacion.Consignacion
+        if(listaOperaciones.size()==0)
+        {
+            maxConsecutivo = 0;
+        }
+        else
+            {
+                if(listaOperaciones.size()!=0)
+                {
+
+                }
+            }
+        Operacion ope = new Operacion(0,numCuenta,fechaHora, valorConsignar,Operacion.TipoOperacion.Consignacion);
+
+
     }
 
 

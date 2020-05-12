@@ -12,6 +12,12 @@ public class Operacion {
         this.tipoOperacion = tipoOperacion;
     }
 
+    public String toString()
+    {
+        return String.format("Consecutivo: %-15d\tNum Cuenta: %-30s\tValor: %-6.2f\tTipo Operacion: %-30s\tFecha Operacion: %-30s",
+                this.consecutivo,this.numCuenta,this.valor,this.tipoOperacion.toString(),this.fechaHoraOperacion.toString());
+    }
+
     public int getConsecutivo() {
         return consecutivo;
     }

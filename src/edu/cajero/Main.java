@@ -17,7 +17,6 @@ public class Main {
     static ListaDobleCircular<Operacion> listaOperaciones =new ListaDobleCircular<>();
 
     public static void main(String[] args) {
-
         int respuesta;
         while ((respuesta = menuMain()) != 4){
             System.out.printf("Respuesta es: %d",respuesta);
@@ -63,6 +62,18 @@ public class Main {
         System.out.println("3.Modificar");
         System.out.println("4.Eliminar");
         System.out.println("5.SALIR");
+
+        System.out.println("Digite una de las opciones: ");
+        return lector.nextInt();
+    }
+
+    public static int menuOpe(){
+        Scanner lector = new Scanner(System.in);
+        System.out.println("");
+        System.out.println("1.Consignación");
+        System.out.println("2.Retiro");
+        System.out.println("3.Consulta");
+        System.out.println("4.SALIR");
 
         System.out.println("Digite una de las opciones: ");
         return lector.nextInt();
@@ -366,10 +377,10 @@ public class Main {
     Cliente cliente = listaClientes.findData(new Cliente(idCliente, "", Cliente.Genero.Female, LocalDate.now()));
     if(cliente!=null)
     {
-    Cuenta cuenta = getCuentaNueva();
-    listaCuenta.add(cuenta);
-    System.out.printf("\nCuenta Ingresada, Presione cualquier tecla para continuar ");
-    lector.nextLine();
+        Cuenta cuenta = getCuentaNueva(idCliente);
+        listaCuenta.add(cuenta);
+        System.out.printf("\nCuenta Ingresada, Presione cualquier tecla para continuar ");
+        lector.nextLine();
     }
     else
         {
@@ -377,20 +388,18 @@ public class Main {
         }
 }
 
-    public static Cuenta getCuentaNueva() {
+    public static Cuenta getCuentaNueva(String idCliente) {
 
             Scanner lector = new Scanner(System.in);
 
             System.out.printf("\nNumero de cuenta: ");
             String numCuenta = lector.nextLine();
 
-            System.out.printf("\nPor favor digite cedula");
-            String Id=lector.nextLine();
 
             System.out.printf("\nDigite saldo inicial de la cuenta: ");
             double saldo = lector.nextDouble();
 
-            Cuenta cuenta = new Cuenta(numCuenta,Id,saldo);
+            Cuenta cuenta = new Cuenta(numCuenta,idCliente,saldo);
 
             return cuenta;
     }
@@ -399,17 +408,28 @@ public class Main {
     {
         int respuesta;
 
-        while((respuesta = menuCli("---MENU CUENTAS---")) != 5)
+        while((respuesta = menuOpe()) != 4)
         {
             switch (respuesta)
             {
-                case 1:operacionesIngreso();
-                break;
-
+                case 1:
+                    consignacion();
+                    break;
                 case 2:
+                    retiros();
+                    break;
+                case 3:
+                    consultarOperaciones();
                     break;
             }
         }
+    }
+
+    public static void consultarOperaciones(){
+        Scanner lector = new Scanner(System.in);
+        listaOperaciones.outputList();
+        System.out.printf("\nOperaciones Consultadas, Presione cualquier tecla para continuar ");
+        lector.nextLine();
     }
 
     public static void operacionesIngreso()
@@ -421,21 +441,18 @@ public class Main {
         System.out.println("3.Salir");
         System.out.println("Digite una de las opciones:");
         resp=lector.nextInt();
-        while (resp!=3)
+        while (resp != 3)
         {
             switch (resp)
             {
-                case 1:consignacion();
-                break;
-
-                case 2:retiros();
-                break;
-
-                case 3:resp=3;
-                break;
-
+                case 1:
+                    consignacion();
+                    break;
+                case 2:
+                    retiros();
+                    break;
+                case 3:
                 default:
-                    System.out.println("La opcion digitada no esta entre las posibles.");
                     break;
             }
         }
@@ -459,22 +476,21 @@ public class Main {
         }while (cuenta == null);
 
         System.out.printf("Valor a consignar:");
-        double valorConsignar=lector.nextDouble();
+        double valorConsignar = lector.nextDouble();
+        LocalDateTime fechaHora = LocalDateTime.now();
 
-        LocalDateTime fechaHora=LocalDateTime.now();
-        //Operacion.TipoOperacion.Consignacion
-        if(listaOperaciones.size()==0)
+
+        if(listaOperaciones.size() == 0)
         {
             maxConsecutivo = 0;
         }
-        else
-            {
-                if(listaOperaciones.size()!=0)
-                {
+        else {
+            maxConsecutivo = listaOperaciones.get(listaOperaciones.size() - 1).getConsecutivo() + 1;
+        }
 
-                }
-            }
-        Operacion ope = new Operacion(0,numCuenta,fechaHora, valorConsignar,Operacion.TipoOperacion.Consignacion);
+        Operacion ope = new Operacion(maxConsecutivo,numCuenta,fechaHora, valorConsignar,Operacion.TipoOperacion.Consignacion);
+
+        listaOperaciones.add(ope);
 
 
     }

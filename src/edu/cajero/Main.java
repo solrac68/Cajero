@@ -490,6 +490,10 @@ public class Main {
 
         Operacion ope = new Operacion(maxConsecutivo,numCuenta,fechaHora, valorConsignar,Operacion.TipoOperacion.Consignacion);
 
+        cuenta.setSaldo(cuenta.getSaldo() + valorConsignar);
+
+        listaCuenta.set(listaCuenta.indexOf(cuenta),cuenta);
+
         listaOperaciones.add(ope);
 
 

@@ -410,6 +410,7 @@ public class Main {
 
         while((respuesta = menuOpe()) != 4)
         {
+            System.out.printf("---MENU OPERACIONES---");
             switch (respuesta)
             {
                 case 1:
@@ -432,7 +433,7 @@ public class Main {
         lector.nextLine();
     }
 
-    public static void operacionesIngreso()
+    /*public static void operacionesIngreso()
     {
         int resp;
         Scanner lector=new Scanner(System.in);
@@ -456,10 +457,44 @@ public class Main {
                     break;
             }
         }
-    }
+    }*/
 
     private static void retiros()
     {
+        int maxConsecutivo = 0;
+        listaCuenta.outputList();
+        String numCuenta;
+        Scanner lector=new Scanner(System.in);
+        Cuenta cuenta;
+        do {
+            System.out.printf("\nDigite su numero de cuenta: ");
+            numCuenta = lector.nextLine();
+            cuenta=listaCuenta.findData(new Cuenta(numCuenta,"",0.0));
+
+        }while (cuenta == null);
+
+        if(listaOperaciones.size() == 0)
+        {
+            maxConsecutivo = 0;
+        }
+        else {
+            maxConsecutivo = listaOperaciones.get(listaOperaciones.size() - 1).getConsecutivo() + 1;
+        }
+
+        System.out.printf("Valor a retirar:");
+        double valorRetirar = lector.nextDouble();
+        LocalDateTime fechaHora = LocalDateTime.now();
+
+        Operacion ope = new Operacion(maxConsecutivo,numCuenta,fechaHora, valorRetirar,Operacion.TipoOperacion.Retiro);
+
+        if(valorRetirar>cuenta.getSaldo())
+        {
+            System.out.printf("Saldo insuficiente");
+        }
+        else
+        {
+            cuenta.setSaldo(cuenta.getSaldo() -valorRetirar);
+        }
     }
 
     private static void consignacion()

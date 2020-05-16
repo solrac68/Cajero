@@ -69,6 +69,7 @@ public class Main {
 
     public static int menuOpe(){
         Scanner lector = new Scanner(System.in);
+        System.out.println("\n---MENU OPERACIONES---");
         System.out.println("");
         System.out.println("1.Consignación");
         System.out.println("2.Retiro");
@@ -410,7 +411,6 @@ public class Main {
 
         while((respuesta = menuOpe()) != 4)
         {
-            System.out.printf("---MENU OPERACIONES---");
             switch (respuesta)
             {
                 case 1:
